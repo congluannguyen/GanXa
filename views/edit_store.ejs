@@ -22,349 +22,227 @@
 <!--<script href="./javascript/nav-bar.js"></script>-->
 <% include ../views/backtotop %>
 
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-        var geocoder;
-        var map;
-        var lat;
-        var long;
-        //Chạy khi khởi tạo.
-        function initialize() {
-            geocoder = new google.maps.Geocoder();
-            //Option.
-            var mapOptions = {
-                zoom: 20
-            };
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script>
+    var geocoder;
+    var map;
+    var lat;
+    var long;
+    //Chạy khi khởi tạo.
+    function initialize() {
+        geocoder = new google.maps.Geocoder();
+        //Option.
+        var mapOptions = {
+            zoom: 20
+        };
 
-            //Tạo google map tại map-canvas cùng với option.
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        //Tạo google map tại map-canvas cùng với option.
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-            // Try HTML5 geolocation
-            if (navigator.geolocation) {
-                //Lấy tọa độ hiện tại:
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    <% store.forEach(function(s){ %>
-                    var pos = new google.maps.LatLng(<%=s.lat%>, <%=s.long%>);
+        // Try HTML5 geolocation
+        if (navigator.geolocation) {
+            //Lấy tọa độ hiện tại:
+            navigator.geolocation.getCurrentPosition(function (position) {
+                <% store.forEach(function(s){ %>
+                var pos = new google.maps.LatLng(<%=s.lat%>, <%=s.long%>);
 
-                    //Set vào 2 biến này.
-                    lat = <%=s.lat%>;
-                    long = <%=s.long%>;
-                    <%})%>
-                    //Textbox hiển thị.
-                    var content = '<div>' + 'Bạn đang ở đây?' + '<br>' + 'Hoặc click để chọn vị trí.' + '</div>';
-                    var infowindow = new google.maps.InfoWindow({
-                        //Bỏ nó vào đâu?
-                        map: map,
-                        //Tại?
-                        position: pos,
-                        //Kèm với text là?
-                        content: content
-                    });
-
-                    map.setCenter(pos);
-                }, function () {
-                    handleNoGeolocation(true);
+                //Set vào 2 biến này.
+                lat = <%=s.lat%>;
+                long = <%=s.long%>;
+                <%})%>
+                //Textbox hiển thị.
+                var content = '<div>' + 'Bạn đang ở đây?' + '<br>' + 'Hoặc click để chọn vị trí.' + '</div>';
+                var infowindow = new google.maps.InfoWindow({
+                    //Bỏ nó vào đâu?
+                    map: map,
+                    //Tại?
+                    position: pos,
+                    //Kèm với text là?
+                    content: content
                 });
-            } else {
-                // Browser doesn't support Geolocation
-                handleNoGeolocation(false);
-            }
-            getLatLong();
 
-            //Click
-            google.maps.event.addListener(map, "click", function(event) {
-                var lat = event.latLng.lat();
-                var lng = event.latLng.lng();
-                // populate yor box/field with lat, lng
-                //alert("Lat=" + lat + "; Lng=" + lng);
-                var elem = document.getElementById("a");
-                elem.value = lat.toFixed(7);
-                var elem = document.getElementById("o");
-                elem.value = lng.toFixed(7);
+                map.setCenter(pos);
+            }, function () {
+                handleNoGeolocation(true);
             });
+        } else {
+            // Browser doesn't support Geolocation
+            handleNoGeolocation(false);
         }
+        getLatLong();
 
-        //Kiểm tra xem trình duyệt có hỗ trợ geolocation không?
-        function handleNoGeolocation(errorFlag) {
-            if (errorFlag) {
-                var content = 'Error: The Geolocation service failed.';
-            } else {
-                var content = 'Error: Your browser doesn\'t support geolocation.';
-            }
-
-            var options = {
-                map: map,
-                position: new google.maps.LatLng(60, 105),
-                content: content
-            };
-
-            var infowindow = new google.maps.InfoWindow(options);
-            map.setCenter(options.position);
-
-        }
-
-        //Lấy lat, lng.
-        function getLatLong() {
-            if (navigator.geolocation) {
-                //navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function showPosition(position) {
-            //Set lat và long xuống textbox.
+        //Click
+        google.maps.event.addListener(map, "click", function (event) {
+            var lat = event.latLng.lat();
+            var lng = event.latLng.lng();
+            // populate yor box/field with lat, lng
+            //alert("Lat=" + lat + "; Lng=" + lng);
             var elem = document.getElementById("a");
-            elem.value = position.coords.latitude;
+            elem.value = lat.toFixed(7);
             var elem = document.getElementById("o");
-            elem.value = position.coords.longitude;
+            elem.value = lng.toFixed(7);
+        });
+    }
+
+    //Kiểm tra xem trình duyệt có hỗ trợ geolocation không?
+    function handleNoGeolocation(errorFlag) {
+        if (errorFlag) {
+            var content = 'Error: The Geolocation service failed.';
+        } else {
+            var content = 'Error: Your browser doesn\'t support geolocation.';
         }
 
-        //Search
-        function codeAddress() {
-            var address = document.getElementById('address').value;
-            geocoder.geocode({ 'address': address}, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var elem = document.getElementById("a");
-                    elem.value = results[0].geometry.location.lat();
-                    var elem = document.getElementById("o");
-                    elem.value = results[0].geometry.location.lng();
+        var options = {
+            map: map,
+            position: new google.maps.LatLng(60, 105),
+            content: content
+        };
 
-                    pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+        var infowindow = new google.maps.InfoWindow(options);
+        map.setCenter(options.position);
 
-                    map.setCenter(results[0].geometry.location);
-                    /*var marker = new google.maps.Marker({
-                     map: map,
-                     position: results[0].geometry.location
-                     });*/
-                    if (infowindow) {
-                        infowindow.close();
-                    } else {
-                        var infowindow = new google.maps.InfoWindow({
-                            map: map,
-                            position: pos,
-                            content: 'Chỗ này à?'
-                        });
-                    }
+    }
+
+    //Lấy lat, lng.
+    function getLatLong() {
+        if (navigator.geolocation) {
+            //navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        //Set lat và long xuống textbox.
+        var elem = document.getElementById("a");
+        elem.value = position.coords.latitude;
+        var elem = document.getElementById("o");
+        elem.value = position.coords.longitude;
+    }
+
+    //Search
+    function codeAddress() {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({ 'address': address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var elem = document.getElementById("a");
+                elem.value = results[0].geometry.location.lat();
+                var elem = document.getElementById("o");
+                elem.value = results[0].geometry.location.lng();
+
+                pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+
+                map.setCenter(results[0].geometry.location);
+                /*var marker = new google.maps.Marker({
+                 map: map,
+                 position: results[0].geometry.location
+                 });*/
+                if (infowindow) {
+                    infowindow.close();
                 } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+                    var infowindow = new google.maps.InfoWindow({
+                        map: map,
+                        position: pos,
+                        content: 'Chỗ này à?'
+                    });
                 }
-            });
-        }
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
 
 
-        /*var myMarker = new google.maps.Marker({
-         position: new google.maps.LatLng(lat , long)
-         draggable: true
-         });
+    /*var myMarker = new google.maps.Marker({
+     position: new google.maps.LatLng(lat , long)
+     draggable: true
+     });
 
-         google.maps.event.addListener(myMarker, 'dragend', function(evt){
-         var elem = document.getElementById("a");
-         elem.value = evt.latLng.lat();
-         var elem = document.getElementById("o");
-         elem.value = evt.latLng.lng();
-         });
-         map.setCenter(myMarker.position);
-         myMarker.setMap(map);*/
-        google.maps.event.addDomListener(window, 'load', initialize);
+     google.maps.event.addListener(myMarker, 'dragend', function(evt){
+     var elem = document.getElementById("a");
+     elem.value = evt.latLng.lat();
+     var elem = document.getElementById("o");
+     elem.value = evt.latLng.lng();
+     });
+     map.setCenter(myMarker.position);
+     myMarker.setMap(map);*/
+    google.maps.event.addDomListener(window, 'load', initialize);
 
-        /*var input = document.getElementById('pac-input');
-         map.control[googles.maps.ControlPostion.TOP_LEFT.push(input)];
-         var autocomplete = new google.maps.places.Autocomplete(input, option);*/
-    </script>
-    <style>
-        #map-canvas {
-            float: left;
-            margin-top: 64px;
-            height: 400px;
-            width: 570px;
+    /*var input = document.getElementById('pac-input');
+     map.control[googles.maps.ControlPostion.TOP_LEFT.push(input)];
+     var autocomplete = new google.maps.places.Autocomplete(input, option);*/
+</script>
+<style>
+    #map-canvas {
+        float: left;
+        margin-top: 10px;
+        margin-left: 12%;
+        height: 400px;
+        width: 75%;
+    }
+
+</style>
+<script>
+    function showMyImage(fileInput) {
+        var files = fileInput.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageType = /image.*/;
+            if (!file.type.match(imageType)) {
+                continue;
+            }
+            var img=document.getElementById("thumbnil");
+            img.file = file;
+            var reader = new FileReader();
+            reader.onload = (function(aImg) {
+                return function(e) {
+                    aImg.src = e.target.result;
+                };
+            })(img);
+            reader.readAsDataURL(file);
         }
-    </style>
-<!--Click effect-->
-    <!--<script>
-        var divmap = document.getElementById("map-canvas");
-        document.onclick = function(e) {
-            var clickObj = document.createElement("div"),
-                    inner = document.createElement("div");
-            inner.className = "clickObj";
-            clickObj.style.position = "absolute";
-            clickObj.style.top = e.clientY + "px";
-            clickObj.style.left = e.clientX + "px";
-            this.body.appendChild(clickObj);
-            clickObj.appendChild(inner);
-            setTimeout(function() { clickObj.remove(); }, 1000);
-        }
-    </script>
-    <style>
-        .clickObj {
-            width:5px;
-            height:5px;
-            background: blue;
-            border-radius: 50%;
-            margin-top: -2.5px;
-            margin-left: -2.5px;
-            -webkit-transform-origin: 0 0;
-            animation: grow .3s linear  forwards;
-            -webkit-animation: grow .3s linear forwards;
-            -moz-animation: grow .3s linear  forwards;
-            -ms-animation: grow .3s linear  forwards;
-            -o-animation: grow .3s linear  forwards;
-        }
-        @keyframes grow {
-            0% {
-                width: 5px;
-                height: 5px;
-                margin-top: -2.5px;
-                margin-left: -2.5px;
-            }
-            50% {
-                margin-top:-7.5px;
-                margin-left: -7.5px;
-                width: 15px;
-                height: 15px;
-                opacity: 1;
-            }
-            100% {
-                margin-top:-12.5px;
-                margin-left: -12.5px;
-                width: 25px;
-                height: 25px;
-                opacity: 0;
-            }
-        }
-        @-webkit-keyframes grow {
-            0% {
-                width: 5px;
-                height: 5px;
-                margin-top: -2.5px;
-                margin-left: -2.5px;
-            }
-            50% {
-                margin-top:-7.5px;
-                margin-left: -7.5px;
-                width: 15px;
-                height: 15px;
-                opacity: 1;
-            }
-            100% {
-                margin-top:-12.5px;
-                margin-left: -12.5px;
-                width: 25px;
-                height: 25px;
-                opacity: 0;
-            }
-        }
-        @-moz-keyframes grow {
-            0% {
-                width: 5px;
-                height: 5px;
-                margin-top: -2.5px;
-                margin-left: -2.5px;
-            }
-            50% {
-                margin-top:-7.5px;
-                margin-left: -7.5px;
-                width: 15px;
-                height: 15px;
-                opacity: 1;
-            }
-            100% {
-                margin-top:-12.5px;
-                margin-left: -12.5px;
-                width: 25px;
-                height: 25px;
-                opacity: 0;
-            }
-        }
-        @-ms-keyframes grow {
-            0% {
-                width: 5px;
-                height: 5px;
-                margin-top: -2.5px;
-                margin-left: -2.5px;
-            }
-            50% {
-                margin-top:-7.5px;
-                margin-left: -7.5px;
-                width: 15px;
-                height: 15px;
-                opacity: 1;
-            }
-            100% {
-                margin-top:-12.5px;
-                margin-left: -12.5px;
-                width: 25px;
-                height: 25px;
-                opacity: 0;
-            }
-        }
-        @-o-keyframes grow {
-            0% {
-                width: 5px;
-                height: 5px;
-                margin-top: -2.5px;
-                margin-left: -2.5px;
-            }
-            50% {
-                margin-top:-7.5px;
-                margin-left: -7.5px;
-                width: 15px;
-                height: 15px;
-                opacity: 1;
-            }
-            100% {
-                margin-top:-12.5px;
-                margin-left: -12.5px;
-                width: 25px;
-                height: 25px;
-                opacity: 0;
-            }
-        }
-    </style>-->
+    }
+</script>
 </head>
 <body>
-
 <% include ../views/nav-menu %>
-
 <div class="container mt40" id="container">
-    <!--<div id="map-canvas"></div>-->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div id="map-canvas"></div>
-            <!--<input id="pac-input" type="text" value="Hồ Chí Minh, Việt Nam" placeholder="Enter a location" class="controls">-->
-            <!--<button onclick="codeAddress()">Focus My location.</button>-->
-        </div>
-    </div>
     <div class="main">
         <div class="wrap">
             <br>
             <br>
+
             <div class="Regisration">
 
                 <div class="Regisration-head">
                     <h2>Edit Store</h2>
-                    <a href="product?id=<%=store_id%>" style="font-family: 'Lucida Console'; font-size: 20px;">Product of Store</a>
+                    <a href="product?id=<%= store_id %>" style="font-family: 'Lucida Console'; font-size: 20px;">Product
+                        of Store</a>
                 </div>
                 <form action="" method="post" enctype="multipart/form-data">
                     <% store.forEach(function(s){ %>
-                    <input type="text" required name="StoreName" placeholder="Tên cửa hàng" value="<%= s.store_name %>">
+                    <input type="text" required name="StoreName" placeholder="Tên cửa hàng" value="<%= s.storeName %>">
                     <input type="text" required name="Address" placeholder="Địa chỉ" value="<%= s.address %>">
                     <br>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"
-                            style="width: 76%;height: 46px">Location
+                            style="width: 76%;height: 46px" onclick="codeAddress()">Location
                     </button>
+                    <div id="map-canvas" class="map"></div>
+                    <input id="pac-input" type="text" value="Hồ Chí Minh, Việt Nam" placeholder="Enter a location" class="controls" >
+                    <!--<button onclick="codeAddress()">Focus My location.</button>-->
                     <br>
                     <input id="a" name="Latitude" value="<%= s.lat %>">
                     <input id="o" name="Longitude" value="<%= s.long %>">
                     <input type="text" required name="Phone" placeholder="Số điện thoại liên lạc" value="<%= s.phone %>">
-                    <textarea required name="Description" placeholder="Giới thiệu về cửa hàng" style="float: left;margin-left: 12%;width: 76%;height: 15em; background-color: #13161B;"><%= s.description %></textarea>
+                    <textarea required name="Description" placeholder="Giới thiệu về cửa hàng" value="<%= s.description %>" style="float: left;margin-left: 12%;width: 76%;height: 15em; background-color: #13161B;"></textarea>
 
                     <br>
-                    <img src="../images/<%= s.cover_image %>" width="25%" height="25%">
+                    <img src="../images/<%= s.cover_image %>" id="thumbnil" width="25%" height="25%">
                     <br>
-                    <input type="file" name="CoverImage" accept="image/*" value="4194304">
-
+                    <input type="file" required name="CoverImage" accept="image/*" onchange="showMyImage(this)"  value="4194304">
+                    <!--<br>-->
+                    <!--<img id="thumbnil" style="width:20%; margin-top:10px;"  src="" alt="image" />-->
+                    <br>
                     <div class="Remember-me">
                         <div class="submit">
                             <input type="submit" value="Submit -->">
