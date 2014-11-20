@@ -30,11 +30,9 @@ router.post('/', function (req, res) {
         var phone = req.body.Phone;
         var description = req.body.Description;
         var cover_image = cover;
-        console.log("0");
         if (typeof req.files.CoverImage === 'undefined') {
             cover_image = cover;
         } else {
-            console.log("2");
             cover_image = ".." + req.files.CoverImage.path.replace("public", "");
         }
 

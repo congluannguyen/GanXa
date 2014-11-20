@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Category</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+
+Các category đang có:
+<% if(typeof category_array != 'undefined'){
+        category_array.forEach(function(c){ %>
+<p><a href="category?type=<%= c.category_name %>"><%= c.category_name %></a></p>
+<% })} %>
+
+<div style="background-color: blue">
+    <% if(typeof store_array != "undefined"){
+            store_array.forEach(function(s){ %>
+
+    <p><a href="edit_store?id=<%= s._id %>"><%= s.store_name %></a></p>
+    <% })} %>
+</div>
+
+Thêm category:
+<form method="post">
+    Category Name: <input type="text" name="category_name">
+
+
+    <input type="submit" value="Thêm">
+</form>
+
+<select name="category_select">
+    <% if(typeof category_array != "undefined"){
+            category_array.forEach(function(c){ %>
+    <option value="<%= c.category_name %>"><%= c.category_name %></option>
+    <% })} %>
+</select>
+
+</body>
+</html>

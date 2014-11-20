@@ -326,8 +326,6 @@
 
 <% include ../views/nav-menu %>
 
-
-
 <div class="container mt40" id="container">
     <!--<div id="map-canvas"></div>-->
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -350,7 +348,7 @@
                 </div>
                 <form action="" method="post" enctype="multipart/form-data">
                     <% store.forEach(function(s){ %>
-                    <input type="text" required name="StoreName" placeholder="Tên cửa hàng" value="<%= s.storeName %>">
+                    <input type="text" required name="StoreName" placeholder="Tên cửa hàng" value="<%= s.store_name %>">
                     <input type="text" required name="Address" placeholder="Địa chỉ" value="<%= s.address %>">
                     <br>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"
@@ -360,16 +358,14 @@
                     <input id="a" name="Latitude" value="<%= s.lat %>">
                     <input id="o" name="Longitude" value="<%= s.long %>">
                     <input type="text" required name="Phone" placeholder="Số điện thoại liên lạc" value="<%= s.phone %>">
-                    <textarea required name="Description" placeholder="Giới thiệu về cửa hàng" value="<%= s.description %>" style="float: left;margin-left: 12%;width: 76%;height: 15em; background-color: #13161B;"></textarea>
+                    <textarea required name="Description" placeholder="Giới thiệu về cửa hàng" style="float: left;margin-left: 12%;width: 76%;height: 15em; background-color: #13161B;"><%= s.description %></textarea>
 
                     <br>
                     <img src="../images/<%= s.cover_image %>" width="25%" height="25%">
                     <br>
-                    <input type="file" required name="CoverImage" accept="image/*" value="4194304">
+                    <input type="file" name="CoverImage" accept="image/*" value="4194304">
 
                     <div class="Remember-me">
-
-
                         <div class="submit">
                             <input type="submit" value="Submit -->">
                         </div>

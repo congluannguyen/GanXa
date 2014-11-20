@@ -8,7 +8,7 @@ var storesSchema = new Schema({
     store_name : String,
     address : String,
     phone : String,
-    store_category: [],
+    store_category: String,
     store_tags: [],
     hours_of_work: String,
     description : String,
