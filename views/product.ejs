@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <!--<script href="./js/bootstrap.min.js"></script>-->
+    <script href="./js/bootstrap.js"></script>
+    <script href='./js/nav-bar.js'></script>
+    <link rel='stylesheet' href='./stylesheets/nav-bar.css'/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/insert.css'/>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <style>
+
+
+    </style>
+    <% include ../views/backtotop %>
+
+    <script>
+        /*var control = document.getElementById("image_upload");
+        control.addEventListener("onclick", function (event) {
+
+            // When the control has changed, there are new files
+
+            var len = files.length;
+            if (len > 4) {
+                document.getElementById("alert").innerHTML = "Limit 4 image.";
+            } else {
+                document.getElementById("alert").innerText = "4 image";
+            }
+        }, false);*/
+
+        $('input[type="file"]').change(function () {
+            alert($(this)[0].files.length+' images chosen');
+        });
+    </script>
+    <script>
+        function checkLength() {
+            var x = document.getElementById("image_upload");
+            if (x.files.length < 2 || x.files.length > 4) {
+                alert("Một sản phẩm cần tối thiểu 2 hình và tối đa 4 hình mô tả.")
+            }
+        }
+    </script>
+</head>
+<body>
+<% include ../views/nav-menu %>
+
+<div class="container mt40" id="container">
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <br>
+            <br>
+
+            <div class="Regisration">
+
+                <div class="Regisration-head">
+                    <h2>Insert Product</h2>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="text" required name="product_name" placeholder="Product Name" autofocus="true">
+                    <input type="text" required name="product_price" placeholder="Price">
+                    <input type="text" required name="product_category" placeholder="Category">
+                    <br>
+                    <output style="color: darkgray">Các category phân cách nhau bởi dấu ","</output>
+                    <br>
+                    <input type="text" required name="product_tags" placeholder="Tags">
+                    <br>
+                    <output style="color: darkgray">Các tags phân cách nhau bởi dấu ","</output>
+                    <br>
+                    <!--<input type="text" required name="product_description" placeholder="Description">-->
+                    <textarea required name="product_description" placeholder="Description" style="float: left;margin-left: 12%;width: 76%;height: 15em; background-color: #13161B;"></textarea>
+
+                    <input type="file" required name="product_image" accept="image/*" value="4194304"
+                           multiple id="image_upload">
+
+                    <div class="Remember-me">
+                        <div class="submit">
+                            <input type="submit" value="Add Product">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="Grid">
+        <div class="Paditems">
+            <a href="#" style="height: 300px;width: 220px;" data-toggle="modal" data-target=".bs-example-modal-lg">
+                <div class="items-div">
+                    <i style="padding-top: 55%;padding-left: 43%"
+                       class="fa fa-plus-square fa-4x"></i>
+                </div>
+            </a>
+
+            <% arr_product.forEach(function (p){ %>
+
+            <div class="items">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <center>
+                                <a href="#"><img src="../images/<%=p.Images%>"
+                                                 style="width: 12em;height: 12em; border-radius: 5px;margin-bottom: 10px;margin-top: 10px;"></a>
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <center>
+                            <td class="tdDown"><a href="#"><img src="../images/<%=p.Images%>"
+                                                                style="width: 4em;height: 4em; border-radius: 5px;margin-left: 10px;"></a>
+                            </td>
+                            <td class="tdDown"><a href=""><img class="img" src="../images/<%=p.Images%>"
+                                                               style="width: 4em;height: 4em; border-radius: 5px;margin-left: 10px;"></a>
+                            </td>
+                            <td class="tdDown"><a href=""><img class="img" src="../images/<%=p.Images%>"
+                                                               style="width: 4em;height: 4em; border-radius: 5px;margin-left: 10px;"></a>
+                            </td>
+                        </center>
+                    </tr>
+                    <tr>
+
+                        <td colspan="3">
+                            <center>
+                                <a href="edit_product?id=<%=p._id%>"  class="btn btn-primary"
+                                        style="width: 90%">Edit
+                                    Product
+                                </a>
+                            </center>
+
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <% }) %>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

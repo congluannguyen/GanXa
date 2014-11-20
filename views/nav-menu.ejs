@@ -1,0 +1,74 @@
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script href="./js/bootstrap.min.js"></script>
+<!--<script href="./javascript/nav-bar.js"></script>-->
+<script href='./js/nav-bar.js'></script>
+<link rel='stylesheet' href='./stylesheets/nav-bar.css'/>
+<script>
+    $(document).ready(function () {
+        $('.menu-close-icon').click(function (e) {
+            e.preventDefault();
+            $('#side-menu').animate({ left: '-500px' });
+            $('#container').animate({width:'80%', marginLeft:'10%'});
+
+        });
+        $('.menu-open-icon').click(function (e) {
+            e.preventDefault();
+            $('#side-menu').animate({ left: '0px', top: '0px' });
+//                $('#row').visible(false);
+            $('#container').animate({width:'60%', marginLeft:'30%'});
+        });
+    });
+</script>
+<div id="side-menu" class="move-me">
+    <hr class="hr-set"/>
+    <span class="logo-text">SOFTER SOURCE   </span> <i class="menu-close-icon glyphicon glyphicon-align-justify"></i>
+    <hr class="hr-set-two"/>
+
+    <ul>
+        <li>
+            <a href="/"> <i class="glyphicon glyphicon-home"></i> Home</a>
+        </li>
+        <li>
+            <a href="insert_store"> <i class="glyphicon glyphicon-th"></i>New Store</a>
+        </li>
+        <!--<li>-->
+        <!--<a href="#" > <i class="glyphicon glyphicon-time"></i>  Pricing</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#" >  <i class="glyphicon glyphicon-user"></i>  Developer</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#" > <i class="glyphicon glyphicon-map-marker"></i> Contact</a>-->
+        <!--</li>-->
+    </ul>
+    <div class="intro-txt">
+        <br/>
+        <i><strong>Company Ovewview </strong></i>
+        <hr/>
+        <p>
+            <a href="http://softersource.com/" target="_blank" style="text-decoration:none;color:#000">Softer
+                Source </a>
+        </p>
+
+    </div>
+
+
+</div>
+<!-- SIDE MENU SECTION END-->
+
+<div class="row" id="row">
+    <div class="col-md-6">
+        <h1><strong> <i class="menu-open-icon glyphicon glyphicon-align-justify"></i> </strong></h1>
+    </div>
+
+</div>

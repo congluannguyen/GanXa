@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Product</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <!--<script href="./js/bootstrap.min.js"></script>-->
+    <script href="./js/bootstrap.js"></script>
+    <script href='./js/nav-bar.js'></script>
+    <link rel='stylesheet' href='./stylesheets/nav-bar.css'/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/insert.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <script>
+        function check_file_upload() {
+            var x = document.getElementById("image_upload");
+            if (x.files.length < 2 || x.files.length > 4) {
+                alert("Một sản phẩm cần tối thiểu 2 hình và tối đa 4 hình mô tả.")
+            }
+        }
+    </script>
+</head>
+<body>
+<% include ../views/nav-menu %>
+<div class="container" id="container">
+
+    <% product.forEach(function(p){%>
+
+    <div class="Regisration">
+
+        <div class="Regisration-head">
+            <h2>Insert Product</h2>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="text" required name="product_name" placeholder="Product Name" autofocus="true"
+                   value="<%=p.ProductName%>">
+            <input type="text" required name="product_price" placeholder="Price" value="<%=p.Price%>">
+            <input type="text" required name="product_category" placeholder="Category" value="<%=p.Category%>">
+            <br>
+            <output style="color: darkgray">Các category phân cách nhau bởi dấu ","</output>
+            <br>
+            <input type="text" required name="product_tags" placeholder="Tags" value="<%=p.Tags%>">
+            <br>
+            <output style="color: darkgray">Các tags phân cách nhau bởi dấu ","</output>
+            <br>
+            <input type="text" required name="product_description" placeholder="Description" value="<%=p.Description%>">
+            <br>
+            <%p.Images.forEach(function(i){ %>
+            <img src="<%=i%>" style="float: left;margin-left: 12%">
+            <%})%>
+            <br>
+            <input type="file" required name="product_image" accept="image/*" value="4194304"
+                   multiple id="image_upload">
+
+            <div class="Remember-me">
+                <div class="submit">
+                    <input type="submit" value="Add Product">
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </form>
+    </div>
+    <%})%>
+</div>
+</body>
+</html>
