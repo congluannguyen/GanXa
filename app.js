@@ -16,7 +16,8 @@ var edit_store_routes = require('./routes/edit_store');
 var edit_product_routes = require('./routes/edit_product');
 var product_routes = require('./routes/product');
 var search_routes = require('./routes/search');
-
+var category_routes = require('./routes/category');
+var tag_routes = require('./routes/tags');
 var near = require('./routes/near');
 //Connect database
 var mongoose = require('mongoose');
@@ -47,6 +48,8 @@ app.use('/edit_product', edit_product_routes);
 app.use('/product', product_routes);
 app.use('/search', search_routes);
 app.use('/near', near);
+app.use('/category', category_routes);
+app.use('/tags', tag_routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

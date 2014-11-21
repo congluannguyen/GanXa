@@ -1,18 +1,21 @@
 var express = require('express');
 var router = express.Router();
 var products_schema = require('../models/ProductsSchema');
-
+var category_schema = require('../models/CategorysSchema');
 var image = [];
 router.get('/', function (req, res) {
     if (req.param('id')) {
         var id = req.param('id');
         products_schema.product.find({_id: id}, function (product_error, product) {
             if (product && product.length > 0) {
-                res.render('edit_product', {product: product});
-                product.forEach(function (p) {
-                    image = p.Images;
+                category_schema.categorys.find(function (err, category_array) {
+                    req.session.category_array = category_array;
+                    res.render('edit_product', {product: product, category_array: category_array});
+                    product.forEach(function (p) {
+                        image = p.Images;
+                    });
                 });
-            }else{
+            } else {
                 console.log("Lỗi - edit_product.js");
             }
         });
@@ -27,11 +30,12 @@ router.post('/', function (req, res) {
     var product_name = req.body.product_name;
     var product_price = req.body.product_price;
     //Category
-    var strCategory = req.body.product_category;
-    var category = strCategory.split(",");
-    for (i = 0; i < category.length; i++) {
-        category[i] = category[i].trim();
-    }
+    var category = req.body.category_select;
+    /*var strCategory = req.body.product_category;
+     var category = strCategory.split(",");
+     for (i = 0; i < category.length; i++) {
+     category[i] = category[i].trim();
+     }*/
     //Tags
     var strTags = req.body.product_tags;
     var tags = strTags.split(",");

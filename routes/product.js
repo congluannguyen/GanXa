@@ -1,36 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
-var stores_schema= require('../models/StoresSchema');
+var stores_schema = require('../models/StoresSchema');
 var products_schema = require('../models/ProductsSchema');
+var category_schema = require('../models/CategorysSchema');
 var store_id;
 
 router.get('/', function (req, res) {
 
     store_id = req.param('id');
     products_schema.product.find({IDStore: store_id}, function (err, arrp) {
-        req.session.recent_store_id = store_id;
-        res.render('product', {arr_product: arrp, store_id: store_id});
+        category_schema.categorys.find(function (err, category_array) {
+            req.session.recent_store_id = store_id;
+            req.session.category_array = category_array;
+            res.render('product', {arr_product: arrp, store_id: store_id, category_array: category_array});
+        });
+
     });
 });
 
 router.post('/', function (req, res) {
 
-    //Edit nè:
-
     var IDStore = store_id;
     var ProductName = req.body.product_name;
     var Price = req.body.product_price;
     //Category
-    var strCategory = req.body.product_category;
-    var Category = strCategory.split(",");
-    for(i = 0; i<Category.length; i++){
-        Category[i] = Category[i].trim();
-    }
+    var Category = req.body.category_select;
+    /*var Category = strCategory.split(",");
+     for (i = 0; i < Category.length; i++) {
+     Category[i] = Category[i].trim();
+     }*/
     //Tags
     var strTags = req.body.product_tags;
     var Tags = strTags.split(",");
-    for(i = 0; i<Tags.length; i++){
+    for (i = 0; i < Tags.length; i++) {
         Tags[i] = Tags[i].trim();
     }
     var Description = req.body.product_description;
@@ -67,7 +70,7 @@ router.post('/', function (req, res) {
                         console.log(err);
                     }
                 });
-            }else{
+            } else {
                 console.log(err);
             }
         });

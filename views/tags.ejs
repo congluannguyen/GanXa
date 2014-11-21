@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tags</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <% product_array.forEach(function(p){ %>
+        <p><%=p.ProductName%></p>
+        <p><%=p.Price%></p>
+    <% }) %>
+</body>
+</html>

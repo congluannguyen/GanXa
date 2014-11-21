@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var stores_schema = require('../models/StoresSchema');
-var category_schema = require('../models/CategorysSchemal');
+var category_schema = require('../models/CategorysSchema');
 
 router.get('/', function (req, res) {
     category_schema.categorys.find(function (err, category_array) {

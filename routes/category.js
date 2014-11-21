@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var category_schema = require('../models/CategorysSchemal');
+var category_schema = require('../models/CategorysSchema');
 var store_schema = require('../models/StoresSchema');
 router.get('/', function (req, res) {
 

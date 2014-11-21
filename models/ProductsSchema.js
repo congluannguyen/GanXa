@@ -7,7 +7,7 @@ var products_schema = new Schema({
     IDStore: String,
     ProductName: String,
     Price: String,
-    Category: [],
+    Category: String,
     Tags: [],
     Description: String,
     Images: [],
